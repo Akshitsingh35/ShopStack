@@ -15,6 +15,7 @@ import { useUserStore } from "./stores/useUserStore";
 import { useEffect } from "react";
 import LoadingSpinner from "./components/LoadingSpinner";
 import { useCartStore } from "./stores/useCartStore";
+import AIChatbot from "./components/AIChatbot";
 
 function App() {
   const { user, checkAuth, checkingAuth } = useUserStore();
@@ -62,6 +63,7 @@ function App() {
 
         </Routes>
       </div>
+      <AIChatbot />
       <Toaster />
     </div>
   );

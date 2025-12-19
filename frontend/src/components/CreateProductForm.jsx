@@ -1,7 +1,9 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { PlusCircle, Upload, Loader } from "lucide-react";
+import { PlusCircle, Upload, Loader, Sparkles } from "lucide-react";
 import { useProductStore } from "../stores/useProductStore";
+import axios from "../lib/axios";
+import { toast } from "react-hot-toast";
 
 const categories = ["jeans", "t-shirts", "shoes", "glasses", "jackets", "suits", "bags"];
 
@@ -15,6 +17,30 @@ const CreateProductForm = () => {
     });
 
     const { createProduct, loading } = useProductStore();
+    const [generatingDescription, setGeneratingDescription] = useState(false);
+
+    const generateAIDescription = async () => {
+        if (!newProduct.name) {
+            toast.error("Please enter a product name first");
+            return;
+        }
+
+        setGeneratingDescription(true);
+        try {
+            const response = await axios.post("/ai/gpt/generate-description", {
+                productName: newProduct.name,
+                category: newProduct.category,
+                price: newProduct.price,
+            });
+
+            setNewProduct({ ...newProduct, description: response.data.description });
+            toast.success("AI description generated!");
+        } catch (error) {
+            toast.error(error.response?.data?.error || "Failed to generate description");
+        } finally {
+            setGeneratingDescription(false);
+        }
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -67,9 +93,20 @@ const CreateProductForm = () => {
                 </div>
 
                 <div>
-                    <label htmlFor='description' className='block text-sm font-medium text-gray-300'>
-                        Description
-                    </label>
+                    <div className='flex items-center justify-between mb-2'>
+                        <label htmlFor='description' className='block text-sm font-medium text-gray-300'>
+                            Description
+                        </label>
+                        <button
+                            type='button'
+                            onClick={generateAIDescription}
+                            disabled={generatingDescription || !newProduct.name}
+                            className='flex items-center gap-2 text-xs bg-emerald-600 hover:bg-emerald-700 px-3 py-1.5 rounded-md disabled:opacity-50 disabled:cursor-not-allowed transition-colors'
+                        >
+                            <Sparkles className='h-3 w-3' />
+                            {generatingDescription ? "Generating..." : "Generate with AI"}
+                        </button>
+                    </div>
                     <textarea
                         id='description'
                         name='description'
