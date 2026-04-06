@@ -45,41 +45,44 @@ const OrderSummary = () => {
 
     return (
         <motion.div
-            className='space-y-4 rounded-lg border border-gray-700 bg-gray-800 p-4 shadow-sm sm:p-6'
+            className='surface-outline glass-card space-y-5 rounded-[1.75rem] p-5 sm:p-6'
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
         >
-            <p className='text-xl font-semibold text-emerald-400'>Order summary</p>
+            <div>
+                <p className='text-sm uppercase tracking-[0.28em] text-emerald-200/70'>Checkout</p>
+                <p className='mt-2 text-2xl font-semibold text-white'>Order summary</p>
+            </div>
 
             <div className='space-y-4'>
                 <div className='space-y-2'>
                     <dl className='flex items-center justify-between gap-4'>
-                        <dt className='text-base font-normal text-gray-300'>Original price</dt>
+                        <dt className='text-base font-normal text-slate-300'>Original price</dt>
                         <dd className='text-base font-medium text-white'>${formattedSubtotal}</dd>
                     </dl>
 
                     {savings > 0 && (
                         <dl className='flex items-center justify-between gap-4'>
-                            <dt className='text-base font-normal text-gray-300'>Savings</dt>
-                            <dd className='text-base font-medium text-emerald-400'>-${formattedSavings}</dd>
+                            <dt className='text-base font-normal text-slate-300'>Savings</dt>
+                            <dd className='text-base font-medium text-emerald-300'>-${formattedSavings}</dd>
                         </dl>
                     )}
 
                     {coupon && isCouponApplied && (
                         <dl className='flex items-center justify-between gap-4'>
-                            <dt className='text-base font-normal text-gray-300'>Coupon ({coupon.code})</dt>
-                            <dd className='text-base font-medium text-emerald-400'>-{coupon.discountPercentage}%</dd>
+                            <dt className='text-base font-normal text-slate-300'>Coupon ({coupon.code})</dt>
+                            <dd className='text-base font-medium text-emerald-300'>-{coupon.discountPercentage}%</dd>
                         </dl>
                     )}
-                    <dl className='flex items-center justify-between gap-4 border-t border-gray-600 pt-2'>
+                    <dl className='flex items-center justify-between gap-4 border-t border-white/10 pt-4'>
                         <dt className='text-base font-bold text-white'>Total</dt>
-                        <dd className='text-base font-bold text-emerald-400'>${formattedTotal}</dd>
+                        <dd className='text-xl font-bold text-emerald-200'>${formattedTotal}</dd>
                     </dl>
                 </div>
 
                 <motion.button
-                    className='flex w-full items-center justify-center rounded-lg bg-emerald-600 px-5 py-2.5 text-sm font-medium text-white hover:bg-emerald-700 focus:outline-none focus:ring-4 focus:ring-emerald-300'
+                    className='flex w-full items-center justify-center rounded-full bg-emerald-300 px-5 py-3 text-sm font-semibold text-slate-950 transition duration-300 hover:bg-emerald-200 focus:outline-none focus:ring-4 focus:ring-emerald-300/30'
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
                     onClick={handlePayment}
@@ -88,10 +91,10 @@ const OrderSummary = () => {
                 </motion.button>
 
                 <div className='flex items-center justify-center gap-2'>
-                    <span className='text-sm font-normal text-gray-400'>or</span>
+                    <span className='text-sm font-normal text-slate-400'>or</span>
                     <Link
                         to='/'
-                        className='inline-flex items-center gap-2 text-sm font-medium text-emerald-400 underline hover:text-emerald-300 hover:no-underline'
+                        className='inline-flex items-center gap-2 text-sm font-medium text-emerald-200 underline decoration-emerald-200/40 underline-offset-4 hover:text-emerald-100 hover:no-underline'
                     >
                         Continue Shopping
                         <MoveRight size={16} />
